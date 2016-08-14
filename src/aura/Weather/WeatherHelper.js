@@ -7,28 +7,36 @@
 
 			if (state === "SUCCESS") {
 				var result = response.getReturnValue();
+				console.log(result);
 				if(result != null){
 					result = JSON.parse(result);
-					component.set('v.weather', result);
+					if(result.cod == 200){
+						component.set('v.weather', result);
+					}else{
+						helper.message(component, 'Error!', 'error', result.message);	
+					}
 				}else{
-					helper.message('Error!', 'error', 'Some error occured while getting weather data');
+					helper.message(component, 'Error!', 'error', 'Some error occured while getting weather data');
 				}
 			}else if (state === "INCOMPLETE") {
 			}else if (state === "ERROR") {
 				var errors = response.getError();
 				if (errors) {
 					if (errors[0] && errors[0].message) {
-							helper.message('Error!', 'error', errors[0].message);
+							helper.message(component, 'Error!', 'error', errors[0].message);
 					}
 				} else {
-					helper.message('Error!', 'error', 'Unknown Error');
+					helper.message(component, 'Error!', 'error', 'Unknown Error');
 				}
 			}
 		});
 		$A.enqueueAction(action);
 	},
-	message: function(title, severity, message){
-		var ele = component.find('message').getElement();
+	message: function(component, title, severity, message){
+		component.set('v.message', message);
+		component.set('v.title', title);
+		component.set('v.severity', severity);
+		var ele = component.find('message');
 		$A.util.removeClass(ele, 'slds-hide');
 		$A.util.addClass(ele, 'slds-show');
 	}

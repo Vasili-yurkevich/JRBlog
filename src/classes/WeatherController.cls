@@ -1,6 +1,6 @@
 public with sharing class WeatherController {
 	private static String apiURL = 'http://api.openweathermap.org/data/2.5/';
-	private static String apiKey = 'XXXXXX';
+	private static String apiKey = 'xxxx';
 	private static String pathCurrentWeather = 'weather?appid='+apiKey+'&units=metric&q=';
 
   // Pass in the endpoint to be used using the string url
